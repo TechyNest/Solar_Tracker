@@ -1,0 +1,34 @@
+This Arduino code is designed to control a servo motor based on the readings from two light-dependent resistors (LDRs) connected to analog input pins A0 and A1.
+
+Here's a breakdown of the code:
+
+1. Library Inclusion:
+   The code begins by including the Servo library, which provides the necessary functions to control the servo motor.
+
+2. Constants and Variables:
+   - `LDR1` and `LDR2` are defined as constants and assigned the values of A0 and A1, respectively. These constants represent the analog input pins to which the LDRs are connected.
+   - `error` is defined as a constant with a value of 10. It represents the acceptable difference between the readings of the two LDRs, indicating a balanced condition.
+
+3. Global Variables:
+   - `Spoint` is a variable that stores the target position for the servo motor. It is initialized to 90 degrees.
+
+4. Setup Function:
+   - `servo.attach(10)` attaches the servo motor to digital pin 10.
+   - `servo.write(Spoint)` moves the servo motor to the initial target position of 90 degrees.
+   - `delay(1000)` introduces a 1-second delay to allow the servo motor to reach its initial position before proceeding to the loop.
+
+5. Loop Function:
+   - `int ldr1 = analogRead(LDR1)` reads the analog value from LDR1 and assigns it to the variable `ldr1`.
+   - `int ldr2 = analogRead(LDR2)` reads the analog value from LDR2 and assigns it to the variable `ldr2`.
+   - `int value1 = abs(ldr1 - ldr2)` calculates the absolute difference between the readings of LDR1 and LDR2 and assigns it to `value1`.
+   - `int value2 = abs(ldr2 - ldr1)` calculates the absolute difference between the readings of LDR2 and LDR1 and assigns it to `value2`.
+
+   The following conditional statements check if the difference between the readings of the two LDRs is within the acceptable range (`error`). If it is, no action is taken.
+
+   If the readings are not within the acceptable range:
+   - If `ldr1` is greater than `ldr2`, the `Spoint` variable is decremented.
+   - If `ldr1` is less than `ldr2`, the `Spoint` variable is incremented.
+
+   Finally, `servo.write(Spoint)` moves the servo motor to the updated target position specified by `Spoint`, and `delay(10)` introduces a short delay before the next iteration of the loop.
+
+In summary, this code adjusts the position of a servo motor based on the readings of two LDRs, attempting to keep the readings of the LDRs balanced within a certain error threshold.
